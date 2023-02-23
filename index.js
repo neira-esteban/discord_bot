@@ -74,7 +74,7 @@ client.on("messageCreate", (message) => {
 
   if (cmd.inVoiceChannel && !message.member.voice.channel) {
     return message.channel.send(
-      `ENFERMOOOOOO, ¡Debes estar en un canal de voz!`
+      `¡Debes estar en un canal de voz!`
     );
   }
 
@@ -116,7 +116,7 @@ client.DisTube
   )
   .on("addSong", (queue, song) =>
     queue.textChannel.send(
-      `${client.emotes.success} | Agregada ${song.name} - \`${song.formattedDuration}\` a la playlist por ${song.user}`
+      `${client.emotes.success} | Agregada ${song.name} - \`${song.formattedDuration}\` a la playlist`
     )
   )
   .on("addList", (queue, playlist) =>
@@ -136,11 +136,11 @@ client.DisTube
     else console.error(e);
   })
   .on("empty", (channel) =>
-    channel.send("El canal de voz está vacío, me voy por pencas qlos...")
+    channel.send("El canal de voz está vacío")
   )
   .on("searchNoResult", (message, query) =>
     message.channel.send(
       `${client.emotes.error} | No se encontraron resultados \`${query}\`!`
     )
   )
-  .on("finish", (queue) => queue.textChannel.send("Finished!"));
+  .on("finish", (queue) => queue.textChannel.send("Terminado!"));
