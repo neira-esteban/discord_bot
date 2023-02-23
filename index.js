@@ -35,11 +35,8 @@ client.on("ready", () => {
   console.log(`${client.user.tag} has logged in!`);
 });
 
-/* client.on("messageCreate", (message) => {
-  console.log(`${message.content}`);
-  return message.reply("RESPONDIDO");
-}); */
-
+module.exports.timedCheck = undefined;
+module.exports.val = 0;
 //------------------------------------------------
 
 client.DisTube = new DisTube(client, {
@@ -84,16 +81,6 @@ client.on("messageCreate", (message) => {
     console.error(e);
     message.channel.send(`Error: \`${e}\``);
   }
-
-  /* if (!message.content.toLowerCase().startsWith(prefix)) return;
-
-  if (args.shift().toLowerCase() === "play") {
-    client.DisTube.play(message.member.voice.channel, args.join(" "), {
-      member: message.member,
-      textChannel: message.channel,
-      message,
-    });
-  } */
 });
 
 const status = (queue) =>
@@ -106,14 +93,13 @@ const status = (queue) =>
         : "This Song"
       : "Off"
   }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
-client.DisTube
-  .on("playSong", (queue, song) =>
-    queue.textChannel.send(
-      `${client.emotes.play} | Reproduciendo: \`${song.name}\` - \`${
-        song.formattedDuration
-      }\`\Solicitada por: ${song.user}\n${status(queue)}`
-    )
+client.DisTube.on("playSong", (queue, song) =>
+  queue.textChannel.send(
+    `${client.emotes.play} | Reproduciendo: \`${song.name}\` - \`${
+      song.formattedDuration
+    }\`\n${status(queue)}`
   )
+)
   .on("addSong", (queue, song) =>
     queue.textChannel.send(
       `${client.emotes.success} | Agregada ${song.name} - \`${song.formattedDuration}\` a la playlist`
@@ -121,9 +107,9 @@ client.DisTube
   )
   .on("addList", (queue, playlist) =>
     queue.textChannel.send(
-      `${client.emotes.success} | Agregada \`${playlist.name}\` a la playlist (${
-        playlist.songs.length
-      } canciones) \n${status(queue)}`
+      `${client.emotes.success} | Agregada \`${
+        playlist.name
+      }\` a la playlist (${playlist.songs.length} canciones) \n${status(queue)}`
     )
   )
   .on("error", (channel, e) => {
@@ -135,9 +121,9 @@ client.DisTube
       );
     else console.error(e);
   })
-  .on("empty", (channel) =>
+  /* .on("empty", (channel) =>
     channel.send("El canal de voz está vacío")
-  )
+  ) */
   .on("searchNoResult", (message, query) =>
     message.channel.send(
       `${client.emotes.error} | No se encontraron resultados \`${query}\`!`
